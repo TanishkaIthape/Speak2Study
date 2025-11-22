@@ -1,6 +1,6 @@
 import React from 'react'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
-//import useSpeechToText from './hooks/useSpeechToText'
+import TextParser from '../components/TextParser'
 
 const VoiceInput = () => {
 
@@ -10,7 +10,7 @@ const VoiceInput = () => {
     }
   ]
 
-  const {transcript , browserSupportsSpeechRecognition , isMicrophoneAvailable} =useSpeechRecognition({commands});
+  const {transcript , resetTranscript , browserSupportsSpeechRecognition , isMicrophoneAvailable} =useSpeechRecognition({commands});
 
   //checking browser support for web speeck API
   if (!browserSupportsSpeechRecognition) {
@@ -23,8 +23,10 @@ const VoiceInput = () => {
   return <span>Please allow microphone access to use Speak2Study.</span>;
  }
 
+console.log(transcript);
+
   return (
-    <div>
+    <>
       <div id='container' >
       
       <textarea id='textArea'
@@ -45,11 +47,18 @@ const VoiceInput = () => {
       >
         Stop Speaking
       </button>
+
+      <button id='stopSpeaking'
+      onClick={resetTranscript}      >
+        Reset
+      </button>
       
       </div>
       
+      <TextParser transcript={transcript} />
+
       </div>
-    </div>
+    </>
   )
 }
 
